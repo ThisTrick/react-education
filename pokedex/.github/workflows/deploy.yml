@@ -18,15 +18,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'pokedex/package-lock.json'
 
       - name: Install dependencies
+        working-directory: ./pokedex
         run: npm ci
 
       - name: Build
+        working-directory: ./pokedex
         run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./pokedex/dist
