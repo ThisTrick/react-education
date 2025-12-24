@@ -1,7 +1,9 @@
-import { Card, Flex, Tag, Spin } from "antd";
-import { usePokemonList, usePokemonTypes, usePokemonByNameOrId } from "../hooks/pokemon-hook.ts";
+import { Card, Flex, Spin } from "antd";
+
+import { usePokemonList, usePokemonByNameOrId } from "../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
+import PokemonTypes from "./common/PokemonTypes.tsx";
 
 interface PokemonCardImageProps {
   alt?: string;
@@ -54,44 +56,39 @@ function PokemonCard({
         <h3 className="pokemon-card-title">
           #{id} {name}
         </h3>
-        <div className="pokemon-card-types">
-          {types.map((t) => (
-            <Tag key={t} className="pokemon-type-tag">
-              <img
-                src={typeList.find((type) => type.name === t)?.image}
-                alt={t}
-              />
-            </Tag>
-          ))}
-        </div>
+        <PokemonTypes types={types} typeList={typeList} />
       </div>
     </Card>
   );
 }
 
-interface Filter{
-    idOrName?: string | number | undefined;
+interface Filter {
+  idOrName?: string | number | undefined;
 }
 
 interface PokedexContentProps {
   limit: number;
   offset: number;
   filter?: Filter;
+  typeList?: Type[];
 }
 
-export default function PokedexContent({ limit, offset, filter }: PokedexContentProps) {
+export default function PokedexContent({
+  limit,
+  offset,
+  filter,
+  typeList,
+}: PokedexContentProps) {
   const {
-    data: typeList,
-    isLoading: typesLoading,
-    error: typesError,
-  } = usePokemonTypes();
-
-  const { data: pokemonList, isLoading, error } = filter?.idOrName
+    data: pokemonList,
+    isLoading,
+    error,
+  } = filter?.idOrName
     ? usePokemonByNameOrId(filter.idOrName)
     : usePokemonList(limit, offset);
 
-  if (isLoading || typesLoading) return <Spin />;
-  if (error || typesError) return <div>Error loading pokémon</div>;
+  if (isLoading) return <Spin />;
+  if (error) return <div>Error loading pokémon</div>;
 
   return (
     <Flex

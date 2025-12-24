@@ -1,0 +1,21 @@
+.pokemon-type-tag {
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pokemon-type-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-type-tag img {
+  width: 100px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}

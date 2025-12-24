@@ -1,10 +1,6 @@
-const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2";
+import type {Pokemon, Type} from "../interfaces";
 
-interface Type {
-    id: number;
-    name: string;
-    image: string;
-}
+const POKEMON_API_BASE_URL = "https://pokeapi.co/api/v2";
 
 
 export async function fetchTypes(): Promise<Type[]> {
@@ -36,14 +32,6 @@ export async function fetchTypes(): Promise<Type[]> {
 
 }
 
-
-
-interface Pokemon {
-    id: number;
-    name: string;
-    types: string[];
-    image: string;
-}
 
 interface PokemonListResponse {
     count: number;

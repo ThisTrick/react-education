@@ -1,9 +1,45 @@
 
-.ant-flex{
-    padding: 8px;
+.ant-flex {
+  margin: 10px;
+  gap: 8px;
 }
 
 .ant-input {
   width: 100%;
   font-size: 100px;
 }
+
+/* Збільшуємо Select компонент та його опції */
+.ant-select-selector {
+  padding: 12px 8px !important;
+  min-height: 140px !important;
+}
+
+.ant-select-selection-item {
+  height: auto !important;
+  padding: 10px 6px !important;
+  margin-bottom: 6px !important;
+}
+
+.ant-select-selection-item-content {
+  display: flex;
+  align-items: center;
+}
+
+/* Збільшуємо теги в опціях Select */
+.ant-select-dropdown .ant-select-item {
+  padding: 16px 12px !important;
+  min-height: 70px;
+}
+
+.ant-select-dropdown .ant-select-item-option-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Центруємо лейбл */
+h3 {
+  text-align: center !important;
+}
+
