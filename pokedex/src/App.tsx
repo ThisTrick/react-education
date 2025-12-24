@@ -12,7 +12,7 @@ import PokedexContent from "./components/PokedexContent.tsx";
 import "./App.css";
 
 const queryClient = new QueryClient();
-const LIMIT = 21;
+const LIMIT = 24;
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);

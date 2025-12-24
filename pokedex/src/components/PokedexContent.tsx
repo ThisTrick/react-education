@@ -1,5 +1,5 @@
 import { Card, Flex, Tag, Spin } from "antd";
-import { usePokemonList } from "../hooks/pokemon-hook.ts";
+import { usePokemonList, usePokemonTypes } from "../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
 
@@ -14,35 +14,10 @@ function PokemonCardImage({
 }: PokemonCardImageProps) {
   return (
     <div className="pokemon-card-cover">
-      <img
-        alt={alt}
-        src={imageUrl}
-        className="pokemon-card-image"
-      />
+      <img alt={alt} src={imageUrl} className="pokemon-card-image" />
     </div>
   );
 }
-
-const typeColors: Record<string, string> = {
-  normal: "default",
-  fire: "red",
-  water: "blue",
-  electric: "gold",
-  grass: "green",
-  ice: "cyan",
-  fighting: "volcano",
-  poison: "purple",
-  ground: "orange",
-  flying: "blue",
-  psychic: "magenta",
-  bug: "lime",
-  rock: "brown",
-  ghost: "purple",
-  dragon: "purple",
-  dark: "black",
-  steel: "silver",
-  fairy: "magenta",
-};
 
 interface Pokemon {
   id: number;
@@ -51,13 +26,22 @@ interface Pokemon {
   image: string;
 }
 
-interface PokemonCardProps extends Pokemon {}
+interface Type {
+  id: number;
+  name: string;
+  image: string;
+}
+
+interface PokemonCardProps extends Pokemon {
+  typeList: Type[];
+}
 
 function PokemonCard({
   name = "Pokémon Name",
   types = ["Grass", "Poison"],
   id = 1,
   image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+  typeList,
 }: PokemonCardProps) {
   return (
     <Card
@@ -67,11 +51,16 @@ function PokemonCard({
       cover={<PokemonCardImage imageUrl={image} alt={name} />}
     >
       <div className="pokemon-card-content">
-        <h3 className="pokemon-card-title">#{id} {name}</h3>
+        <h3 className="pokemon-card-title">
+          #{id} {name}
+        </h3>
         <div className="pokemon-card-types">
           {types.map((t) => (
-            <Tag key={t} color={typeColors[t.toLowerCase()]} className="pokemon-type-tag">
-              {t}
+            <Tag key={t} className="pokemon-type-tag">
+              <img
+                src={typeList.find((type) => type.name === t)?.image}
+                alt={t}
+              />
             </Tag>
           ))}
         </div>
@@ -87,14 +76,24 @@ interface PokedexContentProps {
 
 export default function PokedexContent({ limit, offset }: PokedexContentProps) {
   const { data: pokemonList, isLoading, error } = usePokemonList(limit, offset);
- 
-  if (isLoading) return <Spin />;
-  if (error) return <div>Error loading pokémon</div>;
+  const {
+    data: typeList,
+    isLoading: typesLoading,
+    error: typesError,
+  } = usePokemonTypes();
+
+  if (isLoading || typesLoading) return <Spin />;
+  if (error || typesError) return <div>Error loading pokémon</div>;
 
   return (
-    <Flex justify="space-between" gap="middle" wrap="wrap" className="pokemon-flex">
+    <Flex
+      justify="space-between"
+      gap="middle"
+      wrap="wrap"
+      className="pokemon-flex"
+    >
       {pokemonList?.map((pokemon) => (
-        <PokemonCard key={pokemon.id} {...pokemon} />
+        <PokemonCard typeList={typeList || []} key={pokemon.id} {...pokemon} />
       ))}
     </Flex>
   );
