@@ -33,14 +33,19 @@ jobs:
         working-directory: ./pokedex
         run: npm run build
 
+      - name: Prepare deployment
+        run: |
+          mkdir -p ./deploy/pokedex
+          cp -r ./pokedex/dist/* ./deploy/pokedex/
+          echo '<html><head><meta http-equiv="refresh" content="0;url=pokedex/"></head><body><a href="pokedex/">Go to Pokedex</a></body></html>' > ./deploy/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './pokedex/dist'
-          destination: 'pokedex'
+          path: './deploy'
 
   deploy:
     environment:
