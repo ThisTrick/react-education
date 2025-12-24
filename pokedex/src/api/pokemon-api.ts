@@ -92,3 +92,37 @@ export async function fetchPokemonByNameOrId(
         image: details.sprites.other?.["official-artwork"]?.front_default,
     }] as Pokemon[];
 }
+
+
+export async function fetchPokemonByType(typeName: string, limit: number = 24, offset: number = 0): Promise<Pokemon[]> {
+    // API запит отримує ВСІ покемони типу (без пейджингу на API)
+    const response = await fetch(`${POKEMON_API_BASE_URL}/type/${typeName}`);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch Pokémon of type: ${typeName}`);
+    }
+    const data = await response.json();
+
+    // Слайсимо на клієнті для пейджингу
+    const slicedPokemon = data.pokemon.slice(offset, offset + limit);
+
+    return Promise.all(
+        slicedPokemon.map(async (pokemonInfo: { pokemon: { name: string; url: string } }) => {
+            try {
+                const pokemonDetailsResponse = await fetch(pokemonInfo.pokemon.url);
+                if (!pokemonDetailsResponse.ok) {
+                    throw new Error(`Failed to fetch ${pokemonInfo.pokemon.name}`);
+                }
+                const details = await pokemonDetailsResponse.json();
+                return {
+                    id: details.id,
+                    name: details.name,
+                    types: details.types.map((typeInfo: any) => typeInfo.type.name),
+                    image: details.sprites.other?.["official-artwork"]?.front_default,
+                } as Pokemon;
+            } catch (error) {
+                console.error(`Error fetching ${pokemonInfo.pokemon.name}:`, error);
+                throw error;
+            }
+        })
+    );
+}

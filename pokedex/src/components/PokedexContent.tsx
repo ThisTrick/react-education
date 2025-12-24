@@ -1,6 +1,6 @@
 import { Card, Flex, Spin } from "antd";
 
-import { usePokemonList, usePokemonByNameOrId } from "../hooks/pokemon-hook.ts";
+import { usePokemonList, usePokemonByNameOrId, usePokemonByType } from "../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
 import PokemonTypes from "./common/PokemonTypes.tsx";
@@ -64,6 +64,7 @@ function PokemonCard({
 
 interface Filter {
   idOrName?: string | number | undefined;
+  selectedType?: string | undefined;
 }
 
 interface PokedexContentProps {
@@ -83,7 +84,9 @@ export default function PokedexContent({
     data: pokemonList,
     isLoading,
     error,
-  } = filter?.idOrName
+  } = filter?.selectedType
+    ? usePokemonByType(filter.selectedType, limit, offset)
+    : filter?.idOrName
     ? usePokemonByNameOrId(filter.idOrName)
     : usePokemonList(limit, offset);
 

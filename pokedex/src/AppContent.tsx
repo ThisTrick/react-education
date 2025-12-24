@@ -21,6 +21,8 @@ export default function AppContent() {
     string | number | undefined
   >(undefined);
 
+  const [selectedType, setSelectedType] = useState<string | undefined>(undefined);
+
   const {
     data: typeList,
     isLoading: typesLoading,
@@ -44,13 +46,13 @@ export default function AppContent() {
       </Layout.Header>
       <Layout>
         <Layout.Sider>
-          <PokedexFilters onSearch={setIdOrNameFilter} typeList={typeList} />
+          <PokedexFilters typeList={typeList} onSearch={setIdOrNameFilter} onTypeSelect={setSelectedType} />
         </Layout.Sider>
         <Layout.Content style={{ margin: "16px" }}>
           <PokedexContent
             limit={LIMIT}
             offset={offset}
-            filter={{ idOrName: idOrNameFilter }}
+            filter={{ idOrName: idOrNameFilter, selectedType: selectedType }}
             typeList={typeList}
           />
         </Layout.Content>

@@ -11,11 +11,13 @@ type TagRender = SelectProps["tagRender"];
 interface PokedexFiltersProps {
   typeList?: Type[];
   onSearch: (value: string | number | undefined) => void;
+  onTypeSelect?: (typeName: string) => void;
 }
 
 export default function PokedexFilters({
   typeList,
   onSearch,
+  onTypeSelect,
 }: PokedexFiltersProps) {
   const options: SelectProps["options"] = typeList?.map((type) => ({
     label: <PokemonTypeTag typeList={typeList ?? []} typeName={type.name} />,
@@ -35,6 +37,12 @@ export default function PokedexFilters({
     }
   };
 
+  const handleTypeSelect = (value: string) => {
+    if (onTypeSelect) {
+      onTypeSelect(value);
+    }
+  };
+
   return (
     <Flex vertical>
       <Input
@@ -51,6 +59,7 @@ export default function PokedexFilters({
           tagRender={tagRender}
           options={options}
           style={{ width: '60%' }}
+          onSelect={handleTypeSelect}
         />
       </div>
     </Flex>
