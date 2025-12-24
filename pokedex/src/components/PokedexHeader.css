@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.header h1 {
+  margin: 0 20px;
+  color: #000;
+  flex: 1;
+}
+
+.header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header .ant-switch {
+  margin-left: 1px;
+}
+
+.header h3 {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
