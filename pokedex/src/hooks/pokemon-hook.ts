@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPokemonList, fetchTypes } from "../api/pokemon-api.ts";
+import { fetchPokemonList, fetchTypes, fetchPokemonByNameOrId } from "../api/pokemon-api.ts";
 
 export function usePokemonList(limit: number = 20, offset: number = 0) {
   return useQuery({
@@ -14,3 +14,11 @@ export function usePokemonTypes() {
     queryFn: fetchTypes,
   });
 }
+
+export function usePokemonByNameOrId(nameOrId: string | number) {
+  return useQuery({
+    queryKey: ["pokemon", nameOrId],
+    queryFn: () => fetchPokemonByNameOrId(nameOrId),
+  });
+}
+

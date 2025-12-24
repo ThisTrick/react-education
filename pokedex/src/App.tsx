@@ -22,6 +22,8 @@ function App() {
     setCurrentPage(page);
   };
 
+  const [idOrNameFilter, setIdOrNameFilter] = useState<string | number | undefined>(undefined);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Layout style={{ minHeight: "100vh" }}>
@@ -37,10 +39,10 @@ function App() {
         </Layout.Header>
         <Layout>
           <Layout.Sider>
-            <PokedexFilters />
+            <PokedexFilters onSearch={setIdOrNameFilter} />
           </Layout.Sider>
           <Layout.Content style={{ margin: "16px" }}>
-            <PokedexContent limit={LIMIT} offset={offset} />
+            <PokedexContent limit={LIMIT} offset={offset} filter={{ idOrName: idOrNameFilter }} />
           </Layout.Content>
         </Layout>
         <Layout.Footer>

@@ -1,5 +1,5 @@
 import { Card, Flex, Tag, Spin } from "antd";
-import { usePokemonList, usePokemonTypes } from "../hooks/pokemon-hook.ts";
+import { usePokemonList, usePokemonTypes, usePokemonByNameOrId } from "../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
 
@@ -69,18 +69,26 @@ function PokemonCard({
   );
 }
 
+interface Filter{
+    idOrName?: string | number | undefined;
+}
+
 interface PokedexContentProps {
   limit: number;
   offset: number;
+  filter?: Filter;
 }
 
-export default function PokedexContent({ limit, offset }: PokedexContentProps) {
-  const { data: pokemonList, isLoading, error } = usePokemonList(limit, offset);
+export default function PokedexContent({ limit, offset, filter }: PokedexContentProps) {
   const {
     data: typeList,
     isLoading: typesLoading,
     error: typesError,
   } = usePokemonTypes();
+
+  const { data: pokemonList, isLoading, error } = filter?.idOrName
+    ? usePokemonByNameOrId(filter.idOrName)
+    : usePokemonList(limit, offset);
 
   if (isLoading || typesLoading) return <Spin />;
   if (error || typesError) return <div>Error loading pokémon</div>;

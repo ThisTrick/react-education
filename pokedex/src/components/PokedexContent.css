@@ -26,7 +26,7 @@
 .pokemon-card-cover::after{
     content: "";
     position: absolute;
-    width: 20px;
+    width: 30px;
     height: 40%;
     background: #fafafa;
     border-radius: 4px;
@@ -36,11 +36,11 @@
 }
 
 .pokemon-card-cover::before {
-  left: -10px;    /* притиснути до лівого краю */
+  left: -16px;    /* притиснути до лівого краю */
 }
 
 .pokemon-card-cover::after {
-  right: -10px;   /* притиснути до правого краю */
+  right: -16px;   /* притиснути до правого краю */
 }
 
 .pokemon-card-cover img {
