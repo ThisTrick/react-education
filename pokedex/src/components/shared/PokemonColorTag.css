@@ -1,0 +1,14 @@
+.pokemon-color-type {
+  padding: 8px !important;
+  border: none !important;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 18px;
+}
+
+.pokemon-color-type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

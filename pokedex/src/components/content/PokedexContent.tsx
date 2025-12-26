@@ -6,6 +6,7 @@ import {
   usePokemonList,
   usePokemonByNameOrId,
   usePokemonByType,
+  usePokemonByColor
 } from "../../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
@@ -31,10 +32,12 @@ export default function PokedexContent({
     ? usePokemonByType(filter.selectedType, limit, offset)
     : filter?.idOrName
     ? usePokemonByNameOrId(filter.idOrName)
+    : filter?.selectedColor
+    ? usePokemonByColor(filter.selectedColor, limit, offset)
     : usePokemonList(limit, offset);
 
   if (isLoading) return <Spin />;
-  if (error) return <div>Error loading pokémon</div>;
+  if (error) return <div>Error loading pokémon: {error.message}</div>;
 
   return (
     <Flex

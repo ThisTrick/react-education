@@ -1,8 +1,8 @@
 import { mapToPokemon, fetchPokemonDetailsUrl } from "./utils.ts";
 
-import { POKEMON_API_BASE_URL } from "../utils/const";
+import { POKEMON_API_BASE_URL, POKEMON_COLORS } from "../utils/const";
 
-import type { Pokemon, Type } from "../interfaces";
+import type { Pokemon, Type, Color } from "../interfaces";
 
 export async function fetchTypes(): Promise<Type[]> {
   const response = await fetch(`${POKEMON_API_BASE_URL}/type`);
@@ -35,6 +35,26 @@ export async function fetchTypes(): Promise<Type[]> {
           throw error;
         }
       })
+  );
+}
+
+export async function fetchColors(): Promise<Color[]> {
+  const response = await fetch(`${POKEMON_API_BASE_URL}/pokemon-color`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch Pokémon colors");
+  }
+  const data = await response.json();
+
+  return data.results.map(
+    (colorInfo: { name: string; url: string }, index: number) => {
+      const { bg, text } = POKEMON_COLORS[colorInfo.name];
+      return {
+        id: index,
+        name: colorInfo.name,
+        bgHex: bg,
+        textHex: text,
+      } as Color;
+    }
   );
 }
 
@@ -103,6 +123,39 @@ export async function fetchPokemonByType(
           return await fetchPokemonDetailsUrl(pokemonInfo.pokemon.url);
         } catch (error) {
           console.error(`Error fetching ${pokemonInfo.pokemon.name}:`, error);
+          throw error;
+        }
+      }
+    )
+  );
+}
+
+export async function fetchPokemonByColor(
+  colorName: string,
+  limit: number = 24,
+  offset: number = 0
+): Promise<Pokemon[]> {
+  const response = await fetch(
+    `${POKEMON_API_BASE_URL}/pokemon-color/${colorName}`
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Pokémon of color: ${colorName}`);
+  }
+  const data = await response.json();
+
+  const slicedPokemon = data.pokemon_species.slice(offset, offset + limit);
+
+  return Promise.all(
+    slicedPokemon.map(
+      async (pokemonInfo: { name: string; url: string }) => {
+        try {
+          // pokemon_species URL повертає species, потрібно отримати pokemon з неї
+          const speciesResponse = await fetch(pokemonInfo.url);
+          const speciesData = await speciesResponse.json();
+          const pokemonUrl = speciesData.varieties[0].pokemon.url;
+          return await fetchPokemonDetailsUrl(pokemonUrl);
+        } catch (error) {
+          console.error(`Error fetching ${pokemonInfo.name}:`, error);
           throw error;
         }
       }

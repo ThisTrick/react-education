@@ -5,7 +5,7 @@ import PokedexHeader from "./components/PokedexHeader.tsx";
 import PokedexFilters from "./components/PokedexFilters.tsx";
 import PokedexContent from "./components/content/PokedexContent.tsx";
 
-import { usePokemonTypes } from "./hooks/pokemon-hook.ts";
+import { usePokemonTypes, usePokemonColors } from "./hooks/pokemon-hook.ts";
 
 const LIMIT = 24;
 
@@ -25,16 +25,24 @@ export default function AppContent() {
     undefined
   );
 
+  const [selectedColorId, setSelectedColorId] = useState<number | undefined>(
+    undefined
+  );
+
   const {
     data: typeList,
     isLoading: typesLoading,
     error: typesError,
   } = usePokemonTypes();
 
-  if (typesLoading) return <Spin />;
-  if (typesError) return <div>Error loading pokémon</div>;
+  const {
+    data: colorList,
+    isLoading: colorsLoading,
+    error: colorsError,
+  } = usePokemonColors();
 
-  typeList?.map((type) => console.log(type.name));
+  if (typesLoading || colorsLoading) return <Spin size="large" spinning />;
+  if (typesError || colorsError) return <div>Error loading pokémon</div>;
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -53,6 +61,9 @@ export default function AppContent() {
           <PokedexFilters
             typeList={typeList}
             selectedType={typeList?.find(t => t.id === selectedTypeId)?.name}
+            colorList={colorList}
+            selectedColor={colorList?.find(c => c.id === selectedColorId)?.name}
+            onColorSelect={setSelectedColorId}
             onSearch={setIdOrNameFilter}
             onTypeSelect={setSelectedTypeId}
           />
@@ -61,7 +72,7 @@ export default function AppContent() {
           <PokedexContent
             limit={LIMIT}
             offset={offset}
-            filter={{ idOrName: idOrNameFilter, selectedType: typeList?.find(t => t.id === selectedTypeId)?.name }}
+            filter={{ idOrName: idOrNameFilter, selectedType: typeList?.find(t => t.id === selectedTypeId)?.name, selectedColor: colorList?.find(c => c.id === selectedColorId)?.name }}
             typeList={typeList}
           />
         </Layout.Content>
