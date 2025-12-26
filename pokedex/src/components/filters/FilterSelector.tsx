@@ -1,5 +1,5 @@
 import "./FilterSelector.css";
-import FilterContainer from "./FilterContainer";
+import { FilterContainer } from "../filters";
 
 import type { Item } from "../../interfaces.ts";
 
@@ -12,24 +12,35 @@ interface FilterSelectorProps {
   children: (item: Item) => React.ReactNode;
 }
 
-export default function FilterSelector({ titleVisibility, title, children, onSelect, items, selectedItemId }: FilterSelectorProps) {
+export default function FilterSelector({
+  titleVisibility,
+  title,
+  children,
+  onSelect,
+  items,
+  selectedItemId,
+}: FilterSelectorProps) {
   const handleSelect = (id: number) => {
     if (onSelect) {
       onSelect(id);
     }
   };
 
-  return <FilterContainer titleVisibility={titleVisibility} title={title}>
-    <div className="type-buttons">
-            {items?.map((item) => (
-            <button
-              key={item.id}
-              className={`type-button ${selectedItemId === item.id ? 'active' : ''}`}
-              onClick={() => handleSelect(item.id)}
-            >
-              {children(item)}
-            </button>
-          ))}
-          </div>
-    </FilterContainer>;
+  return (
+    <FilterContainer titleVisibility={titleVisibility} title={title}>
+      <div className="type-buttons">
+        {items?.map((item) => (
+          <button
+            key={item.id}
+            className={`type-button ${
+              selectedItemId === item.id ? "active" : ""
+            }`}
+            onClick={() => handleSelect(item.id)}
+          >
+            {children(item)}
+          </button>
+        ))}
+      </div>
+    </FilterContainer>
+  );
 }

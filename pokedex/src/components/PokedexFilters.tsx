@@ -1,11 +1,10 @@
 import { Input, Flex } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+
+import { TypeSelect } from "./filters";
 import type { Type } from "../interfaces.ts";
 
-
-
 import "./PokedexFilters.css";
-import TypeSelect from "./filters/TypeSelect.tsx";
 
 interface PokedexFiltersProps {
   typeList?: Type[];
@@ -20,8 +19,6 @@ export default function PokedexFilters({
   onSearch,
   onTypeSelect,
 }: PokedexFiltersProps) {
-
-
   const handleSearch = (value: string) => {
     if (value.trim() === "") {
       onSearch(undefined);
@@ -29,7 +26,6 @@ export default function PokedexFilters({
       onSearch(value);
     }
   };
-
 
   return (
     <Flex vertical>
@@ -41,7 +37,11 @@ export default function PokedexFilters({
         allowClear
         onClear={() => onSearch(undefined)}
       />
-      <TypeSelect typeList={typeList} selectedType={selectedType} onTypeSelect={onTypeSelect} />
+      <TypeSelect
+        typeList={typeList}
+        selectedType={selectedType}
+        onTypeSelect={onTypeSelect}
+      />
     </Flex>
   );
 }

@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import PokemonTypes from "../shared/PokemonTypes.tsx";
+import { PokemonTypes } from "../shared";
 import type { Pokemon, Type } from "../../interfaces.ts";
 
 import "./PokemonCard.css";

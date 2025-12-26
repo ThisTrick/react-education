@@ -1,5 +1,5 @@
 import { Flex, Spin } from "antd";
-import PokemonCard from "../content/PokemonCard.tsx";
+import { PokemonCard } from "../content";
 
 import type { Type, Filter } from "../../interfaces.ts";
 import {

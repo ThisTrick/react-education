@@ -1,11 +1,10 @@
 .ant-flex {
-  margin: 10px;
-  gap: 8px;
+  margin: 5px;
+  gap: 10px;
 }
 
 .ant-input {
   width: 100%;
-  font-size: 100px;
 }
 
 /* Збільшуємо Select компонент та його опції */
