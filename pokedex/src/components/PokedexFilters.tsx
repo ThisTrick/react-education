@@ -4,7 +4,7 @@ import type { SelectProps } from "antd";
 import type { Type } from "../interfaces.ts";
 
 import "./PokedexFilters.css";
-import PokemonTypeTag from "./common/PokemonTypeTag";
+import PokemonTypeTag from "./shared/PokemonTypeTag.tsx";
 
 type TagRender = SelectProps["tagRender"];
 

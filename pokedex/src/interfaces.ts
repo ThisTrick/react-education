@@ -17,3 +17,9 @@ export interface Type {
     name: string;
     image: string;
 }
+
+
+export interface Filter {
+  idOrName?: string | number | undefined;
+  selectedType?: string | undefined;
+}

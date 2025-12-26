@@ -3,7 +3,7 @@ import { Layout, Pagination, Spin } from "antd";
 
 import PokedexHeader from "./components/PokedexHeader.tsx";
 import PokedexFilters from "./components/PokedexFilters.tsx";
-import PokedexContent from "./components/PokedexContent.tsx";
+import PokedexContent from "./components/content/PokedexContent.tsx";
 
 import { usePokemonTypes } from "./hooks/pokemon-hook.ts";
 
