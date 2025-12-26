@@ -4,8 +4,6 @@ import { POKEMON_API_BASE_URL } from "../utils/const";
 
 import type { Pokemon, Type } from "../interfaces";
 
-
-
 export async function fetchTypes(): Promise<Type[]> {
   const response = await fetch(`${POKEMON_API_BASE_URL}/type`);
   if (!response.ok) {
@@ -14,25 +12,29 @@ export async function fetchTypes(): Promise<Type[]> {
   const data = await response.json();
 
   return Promise.all(
-    data.results.filter((typeInfo: { name: string; url: string }) => typeInfo.name !== "unknown" && typeInfo.name !== "stellar")
-    .map(async (typeInfo: { name: string; url: string }) => {
-      try {
-        const typeDetailsResponse = await fetch(typeInfo.url);
-        if (!typeDetailsResponse.ok) {
-          throw new Error(`Failed to fetch ${typeInfo.name}`);
-        }
-        const details = await typeDetailsResponse.json();
+    data.results
+      .filter(
+        (typeInfo: { name: string; url: string }) =>
+          typeInfo.name !== "unknown" && typeInfo.name !== "stellar"
+      )
+      .map(async (typeInfo: { name: string; url: string }) => {
+        try {
+          const typeDetailsResponse = await fetch(typeInfo.url);
+          if (!typeDetailsResponse.ok) {
+            throw new Error(`Failed to fetch ${typeInfo.name}`);
+          }
+          const details = await typeDetailsResponse.json();
 
-        return {
-          id: details.id,
-          name: details.name,
-          image: details.sprites["generation-viii"]["sword-shield"].name_icon,
-        } as Type;
-      } catch (error) {
-        console.error(`Error fetching ${name}:`, error);
-        throw error;
-      }
-    })
+          return {
+            id: details.id,
+            name: details.name,
+            image: details.sprites["generation-viii"]["sword-shield"].name_icon,
+          } as Type;
+        } catch (error) {
+          console.error(`Error fetching ${name}:`, error);
+          throw error;
+        }
+      })
   );
 }
 

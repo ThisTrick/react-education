@@ -1,33 +1,26 @@
-import { Input, Flex, Select } from "antd";
+import { Input, Flex } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import type { SelectProps } from "antd";
 import type { Type } from "../interfaces.ts";
 
-import "./PokedexFilters.css";
-import PokemonTypeTag from "./shared/PokemonTypeTag.tsx";
 
-type TagRender = SelectProps["tagRender"];
+
+import "./PokedexFilters.css";
+import TypeSelect from "./filters/TypeSelect.tsx";
 
 interface PokedexFiltersProps {
   typeList?: Type[];
+  selectedType?: string;
   onSearch: (value: string | number | undefined) => void;
   onTypeSelect?: (typeName: string) => void;
 }
 
 export default function PokedexFilters({
   typeList,
+  selectedType,
   onSearch,
   onTypeSelect,
 }: PokedexFiltersProps) {
-  const options: SelectProps["options"] = typeList?.map((type) => ({
-    label: <PokemonTypeTag typeList={typeList ?? []} typeName={type.name} />,
-    value: type.name,
-  })) ?? [];
 
-  const tagRender: TagRender = (props) => {
-    const { value } = props;
-    return <PokemonTypeTag typeList={typeList ?? []} typeName={value} />;
-  };
 
   const handleSearch = (value: string) => {
     if (value.trim() === "") {
@@ -37,11 +30,6 @@ export default function PokedexFilters({
     }
   };
 
-  const handleTypeSelect = (value: string) => {
-    if (onTypeSelect) {
-      onTypeSelect(value);
-    }
-  };
 
   return (
     <Flex vertical>
@@ -53,15 +41,7 @@ export default function PokedexFilters({
         allowClear
         onClear={() => onSearch(undefined)}
       />
-      <h3 style={{ color: "#000" }}>Filter by Type</h3>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Select
-          tagRender={tagRender}
-          options={options}
-          style={{ width: '60%' }}
-          onSelect={handleTypeSelect}
-        />
-      </div>
+      <TypeSelect typeList={typeList} selectedType={selectedType} onTypeSelect={onTypeSelect} />
     </Flex>
   );
 }
