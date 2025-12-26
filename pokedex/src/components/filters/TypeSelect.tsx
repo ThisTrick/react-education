@@ -1,6 +1,6 @@
-import type { Type } from "../../interfaces.ts";
+import type { Item, Type } from "../../interfaces.ts";
 
-
+import FilterSelector from "./FilterSelector.tsx";
 import PokemonTypeTag from "../shared/PokemonTypeTag.tsx";
 
 import "./TypeSelect.css";
@@ -8,30 +8,23 @@ import "./TypeSelect.css";
 interface TypeSelectProps {
   typeList?: Type[];
   selectedType?: string;
-  onTypeSelect?: (typeName: string) => void;
+  onTypeSelect?: (typeId: number) => void;
 }
 
 export default function TypeSelect({ typeList, selectedType, onTypeSelect }: TypeSelectProps) {
-  const handleTypeSelect = (value: string) => {
+  const handleTypeSelect = (id: number) => {
     if (onTypeSelect) {
-      onTypeSelect(value);
+      onTypeSelect(id);
     }
   };
 
+  const selectedTypeId = typeList?.find(t => t.name === selectedType)?.id;
+
   return (
-    <div className="type-select-container">
-      <h3>Filter by Type</h3>
-      <div className="type-buttons">
-        {typeList?.map((type) => (
-        <button
-          key={type.name}
-          className={`type-button ${selectedType === type.name ? 'active' : ''}`}
-          onClick={() => handleTypeSelect(type.name)}
-        >
-          <PokemonTypeTag typeList={typeList} typeName={type.name} />
-        </button>
-      ))}
-      </div>
-    </div>
+    <FilterSelector titleVisibility={true} title="Filter by Type" items={typeList || []} selectedItemId={selectedTypeId} onSelect={(id) => {
+      handleTypeSelect(id);
+    }}>
+       {(item: Item) => <PokemonTypeTag typeList={typeList || []} typeName={item.name} />}
+    </FilterSelector>
   );
 }

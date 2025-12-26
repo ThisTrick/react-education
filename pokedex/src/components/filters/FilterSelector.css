@@ -1,0 +1,47 @@
+.type-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 10px;
+  justify-content: center;
+}
+
+.type-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.type-button:focus {
+  outline: none;
+}
+
+.type-button:focus-visible {
+  outline: 2px solid #1890ff;
+  outline-offset: 2px;
+}
+
+.type-button:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.2);
+}
+
+.type-button.active {
+  border: 2px solid #1890ff;
+  background: rgba(24, 144, 255, 0.1);
+  box-shadow: 0 0 12px rgba(24, 144, 255, 0.4);
+  font-weight: 600;
+}
+
+.type-button.active:hover {
+  background: rgba(24, 144, 255, 0.15);
+  box-shadow: 0 0 16px rgba(24, 144, 255, 0.6);
+}

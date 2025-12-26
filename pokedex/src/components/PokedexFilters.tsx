@@ -11,7 +11,7 @@ interface PokedexFiltersProps {
   typeList?: Type[];
   selectedType?: string;
   onSearch: (value: string | number | undefined) => void;
-  onTypeSelect?: (typeName: string) => void;
+  onTypeSelect?: (typeId: number) => void;
 }
 
 export default function PokedexFilters({

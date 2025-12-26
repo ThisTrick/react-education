@@ -1,20 +1,19 @@
 
 
-
-
-
-
-export interface Pokemon {
+export interface Item {
     id: number;
     name: string;
+}
+
+
+
+export interface Pokemon extends Item {
     types: string[];
     image: string;
 }
 
 
-export interface Type {
-    id: number;
-    name: string;
+export interface Type extends Item {
     image: string;
 }
 
