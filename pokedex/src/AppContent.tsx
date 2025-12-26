@@ -32,6 +32,8 @@ export default function AppContent() {
   if (typesLoading) return <Spin />;
   if (typesError) return <div>Error loading pokémon</div>;
 
+  typeList?.map((type) => console.log(type.name));
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Layout.Header
