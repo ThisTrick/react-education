@@ -1,5 +1,5 @@
-import { Input, Flex } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Input, Flex, Button } from "antd";
+import { SearchOutlined, ClearOutlined } from "@ant-design/icons";
 
 import { TypeSelect, ColorSelect } from "./filters";
 import type { Type, Color } from "../interfaces.ts";
@@ -33,8 +33,14 @@ export default function PokedexFilters({
     }
   };
 
+  const handleClearAll = () => {
+    onSearch(undefined);
+    onTypeSelect?.(-1);
+    onColorSelect?.(-1);
+  };
+
   return (
-    <Flex vertical>
+    <Flex vertical gap="medium">
       <Input
         size="large"
         placeholder="Search Pokémon"
@@ -53,6 +59,16 @@ export default function PokedexFilters({
         selectedColor={selectedColor}
         onColorSelect={onColorSelect}
       />
+      <Button 
+        type="primary" 
+        danger 
+        size="large"
+        icon={<ClearOutlined />}
+        onClick={handleClearAll}
+        block
+      >
+        Clear All Filters
+      </Button>
     </Flex>
   );
 }

@@ -7,6 +7,11 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.pokemon-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
 .pokemon-card-cover {
   background: linear-gradient(135deg, #a8e6cf 0%, #dda0dd 100%);
   padding: 20px;
@@ -42,6 +47,11 @@
   width: 220px;
   height: 220px;
   object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+
+.pokemon-card:hover .pokemon-card-cover img {
+  transform: scale(1.05);
 }
 
 .pokemon-card-content {

@@ -1,8 +1,12 @@
 
 
 .base-container h3 {
-  color: #1890ff;
-  text-align: center;
-  margin-top: 0;
+  text-align: center !important;
   font-size: 24px;
+  font-weight: 700;
+  color: #1890ff;
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }

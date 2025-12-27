@@ -2,30 +2,38 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
   width: 100%;
 }
 
 .header h1 {
   margin: 0 20px;
-  color: #000;
+  color: #fff;
   flex: 1;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .header > div {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .header .ant-switch {
-  margin-left: 1px;
+  margin-left: 0;
+  transform: scale(1.2);
 }
 
 .header h3 {
-  font-size: 14px;
+  font-size: 12px;
   margin: 0;
-  color: #666;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
