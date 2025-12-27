@@ -29,9 +29,23 @@ export default function PokedexFilters({
     if (value.trim() === "") {
       onSearch(undefined);
     } else {
-      onSearch(value);
+     onColorSelect?.(-1);
+     onTypeSelect?.(-1); 
+     onSearch(value);
     }
   };
+
+  const handleSelectType = (typeId: number) => {
+    onSearch(undefined);
+    onColorSelect?.(-1);
+    onTypeSelect?.(typeId);
+  }
+
+  const handleSelectColor = (colorId: number) => {
+    onSearch(undefined);
+    onTypeSelect?.(-1);
+    onColorSelect?.(colorId);
+  }
 
   const handleClearAll = () => {
     onSearch(undefined);
@@ -52,12 +66,12 @@ export default function PokedexFilters({
       <TypeSelect
         typeList={typeList}
         selectedType={selectedType}
-        onTypeSelect={onTypeSelect}
+        onTypeSelect={handleSelectType}
       />
       <ColorSelect
         colorList={colorList}
         selectedColor={selectedColor}
-        onColorSelect={onColorSelect}
+        onColorSelect={handleSelectColor}
       />
       <Button 
         type="primary" 
