@@ -1,8 +1,8 @@
 import { Input, Flex, Button } from "antd";
 import { SearchOutlined, ClearOutlined } from "@ant-design/icons";
 
-import { TypeSelect, ColorSelect } from "./filters";
-import type { Type, Color } from "../interfaces.ts";
+import { TypeSelect, ColorSelect, HabitatSelect } from "./filters";
+import type { Type, Color, Habitat } from "../interfaces.ts";
 
 import "./PokedexFilters.css";
 
@@ -10,10 +10,13 @@ interface PokedexFiltersProps {
   typeList?: Type[];
   selectedType?: string;
   colorList?: Color[];
-  selectedColor?: string;  
+  selectedColor?: string;
+  habitatList?: Habitat[];
+  selectedHabitat?: string;
   onSearch: (value: string | number | undefined) => void;
   onTypeSelect?: (typeId: number) => void;
   onColorSelect?: (colorId: number) => void;
+  onHabitatSelect?: (habitatId: number) => void;
 }
 
 export default function PokedexFilters({
@@ -21,16 +24,20 @@ export default function PokedexFilters({
   selectedType,
   colorList,
   selectedColor,
+  habitatList,
+  selectedHabitat,
   onSearch,
   onTypeSelect,
   onColorSelect,
+  onHabitatSelect,
 }: PokedexFiltersProps) {
   const handleSearch = (value: string) => {
     if (value.trim() === "") {
       onSearch(undefined);
     } else {
      onColorSelect?.(-1);
-     onTypeSelect?.(-1); 
+     onTypeSelect?.(-1);
+     onHabitatSelect?.(-1);
      onSearch(value);
     }
   };
@@ -38,19 +45,29 @@ export default function PokedexFilters({
   const handleSelectType = (typeId: number) => {
     onSearch(undefined);
     onColorSelect?.(-1);
+    onHabitatSelect?.(-1);
     onTypeSelect?.(typeId);
   }
 
   const handleSelectColor = (colorId: number) => {
     onSearch(undefined);
     onTypeSelect?.(-1);
+    onHabitatSelect?.(-1);
     onColorSelect?.(colorId);
+  }
+
+  const handleSelectHabitat = (habitatId: number) => {
+    onSearch(undefined);
+    onTypeSelect?.(-1);
+    onColorSelect?.(-1);
+    onHabitatSelect?.(habitatId);
   }
 
   const handleClearAll = () => {
     onSearch(undefined);
     onTypeSelect?.(-1);
     onColorSelect?.(-1);
+    onHabitatSelect?.(-1);
   };
 
   return (
@@ -72,6 +89,11 @@ export default function PokedexFilters({
         colorList={colorList}
         selectedColor={selectedColor}
         onColorSelect={handleSelectColor}
+      />
+      <HabitatSelect
+        habitatList={habitatList}
+        selectedHabitat={selectedHabitat}
+        onHabitatSelect={handleSelectHabitat}
       />
       <Button 
         type="primary" 

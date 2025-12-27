@@ -6,7 +6,8 @@ import {
   usePokemonList,
   usePokemonByNameOrId,
   usePokemonByType,
-  usePokemonByColor
+  usePokemonByColor,
+  usePokemonByHabitat
 } from "../../hooks/pokemon-hook.ts";
 
 import "./PokedexContent.css";
@@ -34,6 +35,8 @@ export default function PokedexContent({
     ? usePokemonByNameOrId(filter.idOrName)
     : filter?.selectedColor
     ? usePokemonByColor(filter.selectedColor, limit, offset)
+    : filter?.selectedHabitat
+    ? usePokemonByHabitat(filter.selectedHabitat, limit, offset)
     : usePokemonList(limit, offset);
 
   if (isLoading) return <Spin />;

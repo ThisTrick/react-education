@@ -13,4 +13,16 @@ export const POKEMON_COLORS: { [key: string]: { bg: string; text: string } } = {
   yellow: { bg: "#FFD700", text: "#1A1A1A" },
 };
 
+export const HABITAT_COLORS: { [key: string]: { bg: string; text: string } } = {
+  cave: { bg: "#5C4033", text: "#FFFFFF" },
+  forest: { bg: "#2E7D32", text: "#FFFFFF" },
+  grassland: { bg: "#7CB342", text: "#FFFFFF" },
+  mountain: { bg: "#78909C", text: "#FFFFFF" },
+  rare: { bg: "#F57F17", text: "#FFFFFF" },
+  rough_terrain: { bg: "#8D6E63", text: "#FFFFFF" },
+  sea: { bg: "#0277BD", text: "#FFFFFF" },
+  urban: { bg: "#455A64", text: "#FFFFFF" },
+  waters_edge: { bg: "#0288D1", text: "#FFFFFF" },
+};
+
 

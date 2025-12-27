@@ -2,7 +2,7 @@ import { mapToPokemon, fetchPokemonDetailsUrl } from "./utils.ts";
 
 import { POKEMON_API_BASE_URL, POKEMON_COLORS } from "../utils/const";
 
-import type { Pokemon, Type, Color } from "../interfaces";
+import type { Pokemon, Type, Color, Habitat } from "../interfaces";
 
 export async function fetchTypes(): Promise<Type[]> {
   const response = await fetch(`${POKEMON_API_BASE_URL}/type`);
@@ -162,3 +162,52 @@ export async function fetchPokemonByColor(
     )
   );
 }
+
+export async function fetchHabitats(): Promise<Habitat[]> {
+  const response = await fetch(`${POKEMON_API_BASE_URL}/pokemon-habitat`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch Pokémon habitats");
+  }
+  const data = await response.json();
+
+  return data.results.map(
+    (habitatInfo: { name: string; url: string }, index: number) => ({
+      id: index,
+      name: habitatInfo.name,
+    } as Habitat)
+  );
+}
+
+export async function fetchPokemonByHabitat(
+  habitatName: string,
+  limit: number = 24,
+  offset: number = 0
+): Promise<Pokemon[]> {
+  const response = await fetch(
+    `${POKEMON_API_BASE_URL}/pokemon-habitat/${habitatName}`
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Pokémon of habitat: ${habitatName}`);
+  }
+  const data = await response.json();
+
+  const slicedPokemon = data.pokemon_species.slice(offset, offset + limit);
+
+  return Promise.all(
+    slicedPokemon.map(
+      async (pokemonInfo: { name: string; url: string }) => {
+        try {
+          // pokemon_species URL повертає species, потрібно отримати pokemon з неї
+          const speciesResponse = await fetch(pokemonInfo.url);
+          const speciesData = await speciesResponse.json();
+          const pokemonUrl = speciesData.varieties[0].pokemon.url;
+          return await fetchPokemonDetailsUrl(pokemonUrl);
+        } catch (error) {
+          console.error(`Error fetching ${pokemonInfo.name}:`, error);
+          throw error;
+        }
+      }
+    )
+  );
+}
+

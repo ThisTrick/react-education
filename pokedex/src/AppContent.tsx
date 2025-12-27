@@ -5,7 +5,7 @@ import PokedexHeader from "./components/PokedexHeader.tsx";
 import PokedexFilters from "./components/PokedexFilters.tsx";
 import PokedexContent from "./components/content/PokedexContent.tsx";
 
-import { usePokemonTypes, usePokemonColors } from "./hooks/pokemon-hook.ts";
+import { usePokemonTypes, usePokemonColors, usePokemonHabitats } from "./hooks/pokemon-hook.ts";
 
 const LIMIT = 24;
 
@@ -29,6 +29,10 @@ export default function AppContent() {
     undefined
   );
 
+  const [selectedHabitatId, setSelectedHabitatId] = useState<number | undefined>(
+    undefined
+  );
+
   const {
     data: typeList,
     isLoading: typesLoading,
@@ -41,8 +45,14 @@ export default function AppContent() {
     error: colorsError,
   } = usePokemonColors();
 
-  if (typesLoading || colorsLoading) return <Spin size="large" spinning />;
-  if (typesError || colorsError) return <div>Error loading pokémon</div>;
+  const {
+    data: habitatList,
+    isLoading: habitatsLoading,
+    error: habitatsError,
+  } = usePokemonHabitats();
+
+  if (typesLoading || colorsLoading || habitatsLoading) return <Spin size="large" spinning />;
+  if (typesError || colorsError || habitatsError) return <div>Error loading pokémon</div>;
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -63,16 +73,19 @@ export default function AppContent() {
             selectedType={typeList?.find(t => t.id === selectedTypeId)?.name}
             colorList={colorList}
             selectedColor={colorList?.find(c => c.id === selectedColorId)?.name}
+            habitatList={habitatList}
+            selectedHabitat={habitatList?.find(h => h.id === selectedHabitatId)?.name}
             onColorSelect={setSelectedColorId}
             onSearch={setIdOrNameFilter}
             onTypeSelect={setSelectedTypeId}
+            onHabitatSelect={setSelectedHabitatId}
           />
         </Layout.Sider>
         <Layout.Content style={{ margin: "16px" }}>
           <PokedexContent
             limit={LIMIT}
             offset={offset}
-            filter={{ idOrName: idOrNameFilter, selectedType: typeList?.find(t => t.id === selectedTypeId)?.name, selectedColor: colorList?.find(c => c.id === selectedColorId)?.name }}
+            filter={{ idOrName: idOrNameFilter, selectedType: typeList?.find(t => t.id === selectedTypeId)?.name, selectedColor: colorList?.find(c => c.id === selectedColorId)?.name, selectedHabitat: habitatList?.find(h => h.id === selectedHabitatId)?.name }}
             typeList={typeList}
           />
         </Layout.Content>

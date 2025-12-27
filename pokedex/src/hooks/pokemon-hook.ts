@@ -6,6 +6,8 @@ import {
   fetchPokemonByType,
   fetchPokemonByColor,
   fetchColors,
+  fetchHabitats,
+  fetchPokemonByHabitat,
 } from "../api/pokemon-api.ts";
 
 export function usePokemonList(limit: number = 20, offset: number = 0) {
@@ -55,5 +57,23 @@ export function usePokemonByColor(
   return useQuery({
     queryKey: ["pokemonByColor", colorName, limit, offset],
     queryFn: () => fetchPokemonByColor(colorName, limit, offset),
+  });
+}
+
+export function usePokemonHabitats() {
+  return useQuery({
+    queryKey: ["pokemonHabitats"],
+    queryFn: fetchHabitats,
+  });
+}
+
+export function usePokemonByHabitat(
+  habitatName: string,
+  limit: number = 20,
+  offset: number = 0
+) {
+  return useQuery({
+    queryKey: ["pokemonByHabitat", habitatName, limit, offset],
+    queryFn: () => fetchPokemonByHabitat(habitatName, limit, offset),
   });
 }
