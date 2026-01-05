@@ -1,16 +1,14 @@
 import { Tag } from "antd";
 
-import type { Color } from "../../interfaces.ts";
 import { POKEMON_COLORS } from "../../utils/const.ts";
 
 import "./PokemonColorTag.css";
 
 interface PokemonColorTypeProps {
     colorName: string;
-    colorList: Color[];
 }
 
-export default function PokemonColorTag({ colorName, colorList }: PokemonColorTypeProps) {
+export default function PokemonColorTag({ colorName }: PokemonColorTypeProps) {
     const color = POKEMON_COLORS[colorName];
 
     return (

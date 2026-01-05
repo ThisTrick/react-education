@@ -33,7 +33,7 @@ export default function ColorSelect({
       }}
     >
       {(item: Item) => (
-        <PokemonColorTag colorList={colorList || []} colorName={item.name} />
+        <PokemonColorTag colorName={item.name} />
       )}
     </FilterSelector>
   );
